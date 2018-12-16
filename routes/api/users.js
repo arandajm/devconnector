@@ -56,4 +56,42 @@ router.post('/register', (req, res) => {
     }).catch(err => console.log(err));
 });
 
+
+//@route POST /api/users/login
+//@desc Login user route
+//@access Public
+
+router.post('/login', (req, res) => {
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    // Check if user with email exists
+    User.findOne({
+            email: email
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({
+                    email: 'User not found!'
+                });
+            }
+            // If exists, compare the passwords with bcrypt 
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    // If the passwords match, login is successsfully
+                    if (isMatch) {
+                        res.json({
+                            msg: 'Success login!'
+                        })
+                    } else {
+                        // in other case, return a error msg
+                        return res.status(400).json({
+                            password: 'Password incorrect!'
+                        })
+                    }
+                })
+        })
+        .catch(err => console.log(err));
+});
 module.exports = router;
