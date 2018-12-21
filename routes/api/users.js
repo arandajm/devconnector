@@ -81,7 +81,6 @@ router.post("/register", (req, res) => {
 //@access Public
 
 router.post("/login", (req, res) => {
-
     const {
         errors,
         isValid
