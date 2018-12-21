@@ -113,5 +113,5 @@ const ProfileSchema = new Schema({
     }
 });
 
-// Create new model with the UserSchema and export it
-module.exports = User = mongoose.model('profile', ProfileSchema);
+// Create new model with the ProfileSchema and export it
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
