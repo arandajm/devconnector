@@ -238,6 +238,42 @@ router.post(
     }
 );
 
+//@route DELETE /api/profile/experience/:exp_id
+//@desc Delete experience from user profile by id
+//@access Private
+router.delete(
+    "/experience/:exp_id",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        Profile.findOne({
+                user: req.user.id
+            })
+            .populate('user', ['name', 'avatar'])
+            .then(profile => {
+                if (!profile) {
+                    errors.noprofile = "There is no profile for this user!!";
+                    return res.status(404).json(errors);
+                }
+
+                // Get remove index
+                const removeIndex = profile.experience
+                    .map(item => item.id)
+                    .indexOf(req.params._id);
+
+                // Splice out of array
+                profile.experience.splice(removeIndex, 1);
+
+                // Save profile
+                profile.save()
+                    .then(profile => res.json(profile))
+                    .catch(err => res.status(404).json(err));
+            })
+            .catch(err => res.status(404).json(err));
+    }
+);
+
 //@route POST /api/profile/education
 //@desc Add education to user profile
 //@access Private
@@ -277,8 +313,44 @@ router.post(
                     description: req.body.description
                 };
 
-                //Add experience to profile
+                //Add education to profile
                 profile.education.unshift(newEducation);
+
+                // Save profile
+                profile.save()
+                    .then(profile => res.json(profile))
+                    .catch(err => res.status(404).json(err));
+            })
+            .catch(err => res.status(404).json(err));
+    }
+);
+
+//@route DELETE /api/profile/education/:edu_id
+//@desc Delete education from user profile by id
+//@access Private
+router.delete(
+    "/education/:edu_id",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        Profile.findOne({
+                user: req.user.id
+            })
+            .populate('user', ['name', 'avatar'])
+            .then(profile => {
+                if (!profile) {
+                    errors.noprofile = "There is no profile for this user!!";
+                    return res.status(404).json(errors);
+                }
+
+                // Get remove index
+                const removeIndex = profile.education
+                    .map(item => item.id)
+                    .indexOf(req.params._id);
+
+                // Splice out of array
+                profile.education.splice(removeIndex, 1);
 
                 // Save profile
                 profile.save()
