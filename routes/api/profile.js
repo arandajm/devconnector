@@ -239,7 +239,7 @@ router.post(
 );
 
 //@route DELETE /api/profile/experience/:exp_id
-//@desc Delete experience from user profile by id
+//@desc Delete experience from user profile
 //@access Private
 router.delete(
     "/experience/:exp_id",
@@ -326,7 +326,7 @@ router.post(
 );
 
 //@route DELETE /api/profile/education/:edu_id
-//@desc Delete education from user profile by id
+//@desc Delete education from user profile
 //@access Private
 router.delete(
     "/education/:edu_id",
@@ -361,4 +361,31 @@ router.delete(
     }
 );
 
+
+//@route DELETE /api/profile
+//@desc Delete profile and user
+//@access Private
+router.delete(
+    "/",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        Profile.findOneAndDelete({
+                user: req.user.id
+            })
+            .then(() => {
+                User.findOneAndDelete({
+                        _id: req.user.id
+                    })
+                    .then(() => {
+                        res.json({
+                            success: true
+                        });
+                    })
+                    .catch(err => res.status(404).json(err));
+            })
+            .catch(err => res.status(404).json(err));
+    }
+);
 module.exports = router;
