@@ -36,7 +36,7 @@ module.exports = {
 
 ### Author
 
-Brad Traversy
+Jesus Aranda
 [Jesus Aranda](https://github.com/arandajm)
 
 ### Version
