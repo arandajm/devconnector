@@ -89,13 +89,13 @@ router.delete('/:id', passport.authenticate("jwt", {
             Post.findById(req.params.id)
                 .then(post => {
                     // Check for post owner
-                    if (req.user.id !== post.user.toString()) {
+                    if (post.user.toString() !== req.user.id) {
                         return res.status(401).json({
                             noauthorized: 'User not authorized!'
                         })
                     }
                     // Remove post
-                    Post.remove()
+                    post.remove()
                         .then(() => res.json({
                             success: true
                         }))
