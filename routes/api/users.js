@@ -124,7 +124,7 @@ router.post("/login", (req, res) => {
           );
         } else {
           // If the password is wrong, return a error msg
-          errors.email = "Password incorrect!!";
+          errors.password = "Password incorrect!!";
           return res.status(400).json(errors);
         }
       });
