@@ -9,6 +9,18 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import "./App.css";
 import store from "./store";
+import setAuthToken from "./utils/serAuthToken";
+import jwt_decode from "jwt-decode";
+import { setCurrentUser } from "./actions/authActions";
+
+if (localStorage.jwtToken) {
+  // Set auth token header
+  setAuthToken(localStorage.jwtToken);
+  // Decode token to get user data
+  const decoded = jwt_decode(localStorage.jwtToken);
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+}
 
 class App extends Component {
   render() {
