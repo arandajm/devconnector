@@ -11,15 +11,26 @@ import "./App.css";
 import store from "./store";
 import setAuthToken from "./utils/serAuthToken";
 import jwt_decode from "jwt-decode";
-import { setCurrentUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 if (localStorage.jwtToken) {
-  // Set auth token header
-  setAuthToken(localStorage.jwtToken);
   // Decode token to get user data
   const decoded = jwt_decode(localStorage.jwtToken);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+  // Check for expired token
+  const currentTime = Date.now() / 1000;
+
+  if (decoded.exp < currentTime) {
+    //Expired token
+    store.dispatch(logoutUser());
+    // TODO: Clear current profile
+    window.location.href = "/login";
+  } else {
+    // Token no expired
+    // Set auth token header
+    setAuthToken(localStorage.jwtToken);
+    // Set user and isAuthenticated
+    store.dispatch(setCurrentUser(decoded));
+  }
 }
 
 class App extends Component {
