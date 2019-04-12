@@ -8,8 +8,8 @@ import PropTypes from "prop-types";
 class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault();
-    this.props.logoutUser();
     this.props.clearCurrentProfile();
+    this.props.logoutUser();
   }
   render() {
     const { isAuthenticated, user } = this.props.auth;
