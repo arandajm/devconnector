@@ -33,7 +33,6 @@ class Dashboard extends Component {
           </div>
         );
       }
-      dashboardContent = <h4>Hello!!!</h4>;
     }
 
     return (
