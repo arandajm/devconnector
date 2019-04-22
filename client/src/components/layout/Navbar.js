@@ -17,20 +17,27 @@ class Navbar extends Component {
     const authLinks = (
       //HMTL or JSX
       <ul className="navbar-nav ml-auto">
-        <a
-          href="#"
-          onClick={this.onLogoutClick.bind(this)}
-          className="nav-link"
-        >
-          <img
-            className="rounded-circle"
-            src={user.avatar}
-            alt={user.name}
-            title="You must have a Gravatar connected to your email to display an image"
-            style={{ width: "25px", marginRight: "5px" }}
-          />
-          LogOut
-        </a>
+        <li className="nav-item">
+          <Link className="nav-link" to="/dashboard">
+            Dashboard
+          </Link>
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={this.onLogoutClick.bind(this)}
+            className="nav-link"
+          >
+            <img
+              className="rounded-circle"
+              src={user.avatar}
+              alt={user.name}
+              title="You must have a Gravatar connected to your email to display an image"
+              style={{ width: "25px", marginRight: "5px" }}
+            />
+            LogOut
+          </a>
+        </li>
       </ul>
     );
 
