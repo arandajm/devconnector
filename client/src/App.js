@@ -19,6 +19,7 @@ import setAuthToken from "./utils/serAuthToken";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
+import { AddExperience } from "./components/add-credentials/AddExperience";
 
 if (localStorage.jwtToken) {
   // Decode token to get user data
@@ -67,6 +68,13 @@ class App extends Component {
                   exact
                   path="/edit-profile"
                   component={EditProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-experience"
+                  component={AddExperience}
                 />
               </Switch>
             </div>
