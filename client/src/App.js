@@ -19,7 +19,7 @@ import setAuthToken from "./utils/serAuthToken";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
-import { AddExperience } from "./components/add-credentials/AddExperience";
+import AddExperience from "./components/add-credentials/AddExperience";
 
 if (localStorage.jwtToken) {
   // Decode token to get user data
