@@ -3,21 +3,21 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import Moment from "react-moment";
-import { deleteExperience } from "../../actions/profileActions";
+import { deleteEducation } from "../../actions/profileActions";
 
-class Experience extends Component {
+class Education extends Component {
   onDeleteClick(id) {
-    this.props.deleteExperience(id);
+    this.props.deleteEducation(id);
   }
 
   render() {
-    const experience = this.props.experience.map(exp => (
-      <tr key={exp._id}>
-        <td>{exp.company}</td>
-        <td>{exp.title}</td>
+    const education = this.props.education.map(edu => (
+      <tr key={edu._id}>
+        <td>{edu.school}</td>
+        <td>{edu.degree}</td>
         <td>
-          <Moment format="YYYY/MM/DD">{exp.from}</Moment> -
-          {exp.to ? <Moment format="YYYY/MM/DD">{exp.to}</Moment> : " Now"}
+          <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
+          {edu.to ? <Moment format="YYYY/MM/DD">{edu.to}</Moment> : " Now"}
         </td>
         <td>
           <button
@@ -32,27 +32,27 @@ class Experience extends Component {
 
     return (
       <div>
-        <h1 className="mb-4">Experience credentials</h1>
+        <h1 className="mb-4">Education credentials</h1>
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Company</th>
-              <th scope="col">Title</th>
+              <th scope="col">School</th>
+              <th scope="col">Degree</th>
               <th scope="col">Years</th>
               <th scope="col" />
             </tr>
           </thead>
-          <tbody>{experience}</tbody>
+          <tbody>{education}</tbody>
         </table>
       </div>
     );
   }
 }
-Experience.propTypes = {
-  deleteExperience: PropTypes.func.isRequired
+Education.propTypes = {
+  deleteEducation: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { deleteExperience }
-)(withRouter(Experience));
+  { deleteEducation }
+)(withRouter(Education));

@@ -82,6 +82,48 @@ export const addEducation = (eduData, history) => dispatch => {
     });
 };
 
+// Add Experience
+export const deleteExperience = id => dispatch => {
+  // Ajax call
+  axios
+    .delete(`/api/profile/experience/${id}`, id)
+    .then(response => {
+      console.log("delete experience successfully...");
+      // Get profile post delete experience
+      dispatch({
+        type: GET_PROFILE,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Add Education
+export const deleteEducation = id => dispatch => {
+  // Ajax call
+  axios
+    .delete(`/api/profile/education/${id}`, id)
+    .then(response => {
+      console.log("delete education successfully...");
+      // Get profile post delete education
+      dispatch({
+        type: GET_PROFILE,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 export const deleteAccount = () => dispatch => {
   if (window.confirm("Are you sure? This can NOT be undone!!")) {
     // Ajax call
