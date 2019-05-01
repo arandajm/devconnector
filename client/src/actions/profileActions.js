@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
@@ -9,7 +10,7 @@ import {
 
 // Get Current Profile
 export const getCurrentProfile = () => dispatch => {
-  dispatch(setProfileUser());
+  dispatch(setProfileLoading());
   // Ajax call
   axios
     .get("/api/profile")
@@ -124,6 +125,27 @@ export const deleteEducation = id => dispatch => {
     });
 };
 
+// Get Profiles
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  // Ajax call
+  axios
+    .get("/api/profile/all")
+    .then(response => {
+      console.log(response.data);
+      dispatch({
+        type: GET_PROFILES,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      });
+    });
+};
+
 export const deleteAccount = () => dispatch => {
   if (window.confirm("Are you sure? This can NOT be undone!!")) {
     // Ajax call
@@ -146,7 +168,7 @@ export const deleteAccount = () => dispatch => {
 };
 
 // Set profile user
-export const setProfileUser = () => {
+export const setProfileLoading = () => {
   return {
     type: PROFILE_LOADING
   };
