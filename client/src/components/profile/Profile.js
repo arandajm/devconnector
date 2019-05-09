@@ -26,7 +26,7 @@ class Profile extends Component {
       profileContent = (
         <div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <Link to="/profiles" className="btn btn-light">
                 Back To Profiles
               </Link>
@@ -40,7 +40,9 @@ class Profile extends Component {
             experience={profile.experience}
             education={profile.education}
           />
-          <ProfileGitHub />
+          {profile.githubusername ? (
+            <ProfileGitHub username={profile.githubusername} />
+          ) : null}
         </div>
       );
     }
