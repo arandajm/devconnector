@@ -3,6 +3,7 @@ import {
   GET_ERRORS,
   ADD_POST,
   GET_POSTS,
+  GET_POST,
   POST_LOADING,
   DELETE_POST
 } from "./types";
@@ -27,7 +28,7 @@ export const addPost = postData => dispatch => {
     });
 };
 
-// Get Profiles
+// Get Posts
 export const getPosts = () => dispatch => {
   dispatch(setPostLoading());
   // Ajax call
@@ -43,6 +44,27 @@ export const getPosts = () => dispatch => {
     .catch(err => {
       dispatch({
         type: GET_POSTS,
+        payload: null
+      });
+    });
+};
+
+// Get Post
+export const getPost = id => dispatch => {
+  dispatch(setPostLoading());
+  // Ajax call
+  axios
+    .get(`/api/posts/${id}`)
+    .then(response => {
+      console.log(response.data);
+      dispatch({
+        type: GET_POST,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_POST,
         payload: null
       });
     });

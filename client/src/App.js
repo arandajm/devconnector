@@ -25,6 +25,7 @@ import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import NotFound from "./components/not-found/NotFound";
+import Post from "./components/post/Post";
 
 if (localStorage.jwtToken) {
   // Decode token to get user data
@@ -94,7 +95,9 @@ class App extends Component {
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
               </Switch>
-              {/* TODO not fount route */}
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
+              </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>
             <Footer />
