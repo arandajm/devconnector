@@ -122,6 +122,26 @@ export const removeLike = id => dispatch => {
     });
 };
 
+// Add Post
+export const addComment = (postId, commentData) => dispatch => {
+  // Ajax call
+  axios
+    .post(`/api/posts/comment/${postId}`, commentData)
+    .then(response => {
+      console.log("add comment successfully...");
+      dispatch({
+        type: GET_POST,
+        payload: response.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // Set post loading
 export const setPostLoading = () => {
   return {
