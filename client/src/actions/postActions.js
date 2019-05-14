@@ -1,5 +1,11 @@
 import axios from "axios";
-import { GET_ERRORS, ADD_POST, GET_POSTS, POST_LOADING } from "./types";
+import {
+  GET_ERRORS,
+  ADD_POST,
+  GET_POSTS,
+  POST_LOADING,
+  DELETE_POST
+} from "./types";
 
 // Add Post
 export const addPost = postData => dispatch => {
@@ -42,7 +48,59 @@ export const getPosts = () => dispatch => {
     });
 };
 
-// Set profile user
+// delete Post
+export const deletePost = id => dispatch => {
+  // Ajax call
+  axios
+    .delete(`/api/posts/${id}`)
+    .then(response => {
+      console.log("delete post successfully...");
+      dispatch({
+        type: DELETE_POST,
+        payload: id
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Add Like
+export const addLike = id => dispatch => {
+  // Ajax call
+  axios
+    .post(`/api/posts/like/${id}`)
+    .then(response => {
+      dispatch(getPosts());
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Remove Like
+export const removeLike = id => dispatch => {
+  // Ajax call
+  axios
+    .post(`/api/posts/unlike/${id}`)
+    .then(response => {
+      dispatch(getPosts());
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Set post loading
 export const setPostLoading = () => {
   return {
     type: POST_LOADING
