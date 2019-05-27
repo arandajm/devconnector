@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const path = require("path");
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
@@ -30,10 +31,6 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("Hello!!!!!!!");
-});
-
 //Use Routes
 app.use("/api/users", users);
 app.use("/api/profile", profile);
@@ -45,7 +42,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   //For any frontend route, serve index file
   app.get("*", (req, res) => {
-    //Send index file
+    //Send index file.
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
