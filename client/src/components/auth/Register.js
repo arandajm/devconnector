@@ -1,128 +1,105 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
-import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
+import { useSelector, useDispatch } from "react-redux";
 
-class Register extends Component {
-  constructor() {
-    super();
-    // Create register state
-    this.state = {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
-      errors: {}
-    };
-    // Bind this with onChange
-    this.onChange = this.onChange.bind(this);
-    // Bind this with onSubmit
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+//Use this hook when receive a new prop!
+// componentWillReceiveProps(nextProps) {
+//   if (nextProps.errors) {
+//     setErrors({ errors: nextProps.errors });
+//   }
+// }
 
-  onChange(e) {
-    // Set new state values when onChange event is happened
-    this.setState({ [e.target.name]: e.target.value });
-  }
+const Register = history => {
+  // Use of useState ()
+  //Allows us to get the state from the Redux store. This hook will be used to replace mapStateToProps in connect().
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errors, setErrors] = useState({});
 
-  onSubmit(e) {
+  const auth = useSelector(state => state.auth);
+  const errorsSelector = useSelector(state => state.errors);
+
+  const { isAuthenticated } = auth;
+  // Use of useDispatch(). Allows us to dispatch out redux actions. This hook will be used to replace mapDispatchToProps in connect().
+  const dispatch = useDispatch();
+
+  // use of useEffect instead of life circle methods like component componentDidMount
+  useEffect(() => {
+    if (isAuthenticated) {
+      // if the user is authenticated, go to dashboard
+      history.push("/dashboard");
+    }
+    if (errorsSelector) {
+      console.log("errors: " + JSON.stringify(errorsSelector));
+      setErrors(errorsSelector);
+    }
+    //In this array, specify the props that can change. React will execute the effect if any props changes.
+  }, [errorsSelector]);
+
+  const onSubmit = e => {
     e.preventDefault();
     const newUser = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
+      name,
+      email,
+      password,
+      password2
     };
 
-    // any actions brings in a prop!
-    this.props.registerUser(newUser, this.props.history);
-  }
+    console.log(newUser);
+    dispatch(registerUser(newUser, history));
+  };
 
-  //Use this hook when receive a new prop!
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
-    }
-  }
-
-  render() {
-    // Is the same that const errors = this.state.errors
-    const { errors } = this.state;
-
-    return (
-      <div className="register">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">
-                Create your DevConnector account
-              </p>
-              <form noValidate onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  name="name"
-                  placeholder="Name"
-                  value={this.state.name}
-                  onChange={this.onChange}
-                  error={errors.name}
-                />
-                <TextFieldGroup
-                  name="email"
-                  type="email"
-                  placeholder="Email Address"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  error={errors.email}
-                  info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
-                />
-                <TextFieldGroup
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  error={errors.password}
-                />
-                <TextFieldGroup
-                  name="password2"
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={this.state.password2}
-                  onChange={this.onChange}
-                  error={errors.password2}
-                />
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
-            </div>
+  return (
+    <div className="register">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8 m-auto">
+            <h1 className="display-4 text-center">Sign Up</h1>
+            <p className="lead text-center">Create your DevConnector account</p>
+            <form noValidate onSubmit={onSubmit}>
+              <TextFieldGroup
+                name="name"
+                placeholder="Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                error={errors.name}
+              />
+              <TextFieldGroup
+                name="email"
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                error={errors.email}
+                info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
+              />
+              <TextFieldGroup
+                name="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                error={errors.password}
+              />
+              <TextFieldGroup
+                name="password2"
+                type="password"
+                placeholder="Confirm Password"
+                value={password2}
+                onChange={e => setPassword2(e.target.value)}
+                error={errors.password2}
+              />
+              <input type="submit" className="btn btn-info btn-block mt-4" />
+            </form>
           </div>
         </div>
       </div>
-    );
-  }
-}
-
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+    </div>
+  );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-});
-
-// Second parameter we map de actions
-// We use connect to use redux our components
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+export default withRouter(Register);
