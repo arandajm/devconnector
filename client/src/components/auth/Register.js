@@ -4,13 +4,6 @@ import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { useSelector, useDispatch } from "react-redux";
 
-//Use this hook when receive a new prop!
-// componentWillReceiveProps(nextProps) {
-//   if (nextProps.errors) {
-//     setErrors({ errors: nextProps.errors });
-//   }
-// }
-
 const Register = history => {
   // Use of useState ()
   //Allows us to get the state from the Redux store. This hook will be used to replace mapStateToProps in connect().
