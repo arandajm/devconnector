@@ -1,10 +1,10 @@
 # DevConnector
 
-> full stack social network application using Node.js, Express, React, Redux and MongoDB along with ES6+. We will start with a bank text editor and end with a deployed full stack application. 
+full stack social network application using Node.js, Express, React, Redux and MongoDB along with ES6+. We will start with a bank text editor and end with a deployed full stack application. 
 
-> This app includes…
+This app includes…
 
-- an extensive backend API with Node.js & Express
+- An extensive backend API with Node.js & Express
 - Protecting routes/endpoints with JWT (JSON Web Tokens)
 - Integrating React with our backend in an elegant way, creating a great workflow
 - Building our frontend to work with the API
